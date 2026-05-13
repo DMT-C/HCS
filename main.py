@@ -21,40 +21,16 @@ from utils.loss import l2_regularization,spectral_consistency_loss,complementari
 from geoopt.optim import RiemannianAdam
 from geoopt import PoincareBall
 import time
-# bastrop dataset:      nc1 = 11, nc2 = 3
-# california dataset:   nc1 = 7, nc2 = 10
-# shuguang dataset:     nc1 = 1, nc2 = 3
-# italy dataset:        nc1 = 1, nc2 = 3
-# france dataset:       nc1 = 3, nc2 = 3
-# yellow dataset:       nc1 = 1, nc2 = 1
-# gloucester2 dataset:  nc1 = 3, nc2 = 1
-# gloucester1 dataset:  nc1 = 1, nc2 = 3
+
 
 # Select device，w/ cuda，w/o cpu
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--data_name', default='italy', type=str)  # yellow or bastrop or california or other
-# parser.add_argument('--t1_path', default='./data/Yellow/t1.png', type=str)
-# parser.add_argument('--t2_path', default='./data/Yellow/t2.png', type=str)
-# parser.add_argument('--gt_path', default='./data/Yellow/gt.png', type=str)
-# parser.add_argument('--t1_path', default='./data/France/Img7-Ac.png', type=str)
-# parser.add_argument('--t2_path', default='./data/France/Img7-Bc.png', type=str)
-# parser.add_argument('--gt_path', default='./data/France/Img7-C.png', type=str)
-# parser.add_argument('--t1_path', default='./data/California/California.mat', type=str)
-# parser.add_argument('--t1_path', default='./data/Bastrop/Cross-sensor-Bastrop-data.mat', type=str)
-parser.add_argument('--t1_path', default='./data/Italy/Italy_1.bmp', type=str)
-parser.add_argument('--t2_path', default='./data/Italy/Italy_2.bmp', type=str)
-parser.add_argument('--gt_path', default='./data/Italy/Italy_gt.png', type=str)
-# parser.add_argument('--t1_path', default='./data/Shuguang/T1.png', type=str)
-# parser.add_argument('--t2_path', default='./data/Shuguang/T2.png', type=str)
-# parser.add_argument('--gt_path', default='./data/Shuguang/GT.png', type=str)
-# parser.add_argument('--t1_path', default='./data/Gloucester2/T1-Img17-Bc.png', type=str)
-# parser.add_argument('--t2_path', default='./data/Gloucester2/T2-Img17-A.png', type=str)
-# parser.add_argument('--gt_path', default='./data/Gloucester2/Img17-C.png', type=str)
-# parser.add_argument('--t1_path', default='./data/HalfShuguang/T1_left.png', type=str)
-# parser.add_argument('--t2_path', default='./data/HalfShuguang/T2_left.png', type=str)
-# parser.add_argument('--gt_path', default='./data/HalfShuguang/GT_left.png', type=str)
+parser.add_argument('--t1_path', default='./dataset/Italy/Italy_1.bmp', type=str)
+parser.add_argument('--t2_path', default='./dataset/Italy/Italy_2.bmp', type=str)
+parser.add_argument('--gt_path', default='./dataset/Italy/Italy_gt.png', type=str)
 parser.add_argument('--t1_nc', default='3', type=int)
 parser.add_argument('--t2_nc', default='3', type=int)
 parser.add_argument('--patch_size', default=9, type=int)
@@ -62,9 +38,9 @@ parser.add_argument('--batch_size', default=32, type=int)
 parser.add_argument('--test_ps', default=9, type=int)
 parser.add_argument('--lr', default=0.0001, type=float)
 parser.add_argument('--lr_delay', default=range(30), type=float)
-parser.add_argument('--optim', default='rmsprop', type=str)  # rmsprop
+parser.add_argument('--optim', default='rmsprop', type=str)  
 parser.add_argument('--epochs', default=10, type=int)
-parser.add_argument('--vision_path', default='./MyItaly_0.0001_9_1_rms/', type=str)
+parser.add_argument('--vision_path', default='./MyItaly/', type=str)
 
 
 parser.add_argument('--hyp_c', type=float,default=1,help='hyperbolic c, 0 enables sphere mode')
@@ -77,7 +53,6 @@ decoder2=PoincareDecoder(in_channels=32,out_channels=3, c=args.hyp_c,kernel_size
 
 
 encoder.to(device=device)
-#encoder2.to(device=device)
 decoder1.to(device=device)
 decoder2.to(device=device)
 
