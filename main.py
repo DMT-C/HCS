@@ -269,14 +269,11 @@ def train():
 
                 cv2.imwrite((args.vision_path + str(epoch + 1) + "/t1_hat.png"), t1_hat.astype(np.uint8))
                 cv2.imwrite(args.vision_path + str(epoch + 1) + "/t2_hat.png", t2_hat.astype(np.uint8))
-                # cv2.imwrite(args.vision_path + str(epoch + 1) + "/t12.png", f_t12_hat)
-                # cv2.imwrite(args.vision_path + str(epoch + 1) + "/t21.png", f_t21_hat)#通道数为2不能保存
+
             torch.save(encoder.state_dict(),
                        args.vision_path + str(epoch + 1) + '/encoder_ps_' + str(args.patch_size) + '_epoch_' + str(
                            epoch) + '.pth')
-            # torch.save(encoder2.state_dict(),
-            #            args.vision_path + str(epoch + 1) + '/encoder_ps_' + str(args.patch_size) + '_epoch_' + str(
-            #                epoch) + '.pth')
+
             torch.save(decoder1.state_dict(),
                        args.vision_path + str(epoch + 1) + '/decoder1_ps_' + str(args.patch_size) + '_epoch_' + str(
                            epoch) + '.pth')
